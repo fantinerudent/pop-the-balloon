@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+html(lang="fr")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title inscription
+    body
+
+form#formInscription(action='/inscription' method='POST')
+    label(for='pseudonyme')  votre pseudo ici: 
+    input#pseudonyme(type='text' name='pseudonyme'  autocomplete='off' required)
+    label(for='password')  mot de passe : 
+    input#password(type='password' name='password' required)
+    input.btn.btn-success(type='submit' value='envoyer' id="bttEnvoyer")

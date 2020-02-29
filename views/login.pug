@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+html(lang="fr")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Login
+
+    body
+
+    form#formulaireLogin(action='/login' method="POST")
+        label(for='pseudonyme')  votre pseudo ici: 
+        input#pseudonyme(type='text' name='pseudonyme' required)
+        label(for='password')  mot de passe : 
+        input#password(type='password' name='password' required)
+        a(href='/inscription') inscription ici.
+        input.btn.btn-success(type='submit' value='envoyer' id="bttEnvoyer")
+  
+  
+    
+    p#message
+        | #{message}

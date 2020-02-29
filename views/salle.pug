@@ -1,0 +1,20 @@
+head  
+    script(src="http://localhost:8000/socket.io/socket.io.js")
+    Title " Pop the Balloon"
+
+
+
+p salut #{pseudonyme}
+
+p Ceci est la salle
+
+form#newRoom(action='room', method='POST')
+    label(for="nouvelleRoom") nom de la nouvelle room : 
+    input(type="text" name="nouvelleRoom")
+    input(type="submit" value="envoyer")
+
+#roomContainer
+
+    
+    
+script(src="/js/script.js")

@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+        link(rel='stylesheet', href='/css/style.css')
+        script(src="http://localhost:8000/socket.io/socket.io.js")
+
+    body
+
+        p Salut
+        p#paragraphePseudo #[strong #{pseudonyme}] 
+        p Bienvenue dans la salle #[strong #{roomName}]  
+
+        #messageContainer
+
+
+
+script.
+      "use strict";
+
+      window.addEventListener("DOMContentLoaded", function(){
+
+        const ioSocket = io("http://localhost:8000");
+        ioSocket.id = Math.round(Math.random() * 10 ** 12)
+        ioSocket.pseudonyme = paragraphePseudo.innerText;
+
+        ioSocket.on("connect", function(){
+
+          ioSocket.emit("ioSocket_pseudo", 
+              ioSocket.pseudonyme
+              )
+
+          ioSocket.on("updateClientSquare", function(square){
+            // on updatClient j'appelle la fonction createSquare créee
+            // auparavant, je lui donne les infos du square recu par le back
+            // je fais une recherche sur la div qui contient l'id squareproperties
+          var ballon = window.document.getElementById(square.id);
+
+            if (square.height === '55px') {
+              ioSocket.on('youLoose', function(data) {
+                messageContainer.innerText = data.message ;
+                let myballon = document.getElementById(ioSocket.id);
+                myballon.style.display = "none"
+                ballon.style.display="none";
+                myballon.parentNode.removeChild(myballon);
+                setTimeout(function(){ioSocket.disconnect();}, 1000);
+              })
+            }
+
+          //s'il n'existe pas je le crée.
+          if (! ballon) {
+            ballon = window.document.createElement("div");
+            ballon.id = square.id;
+            window.document.body.appendChild(ballon);
+          }
+          // une fois trouvé ou crée; je  lui donne les propriétés de square
+
+          ballon.innerText = square.innerText
+          ballon.style.top = square.top + "px";
+          ballon.style.left = square.left + "px";
+          ballon.style.borderRadius = square.borderRadius;
+          ballon.style.width = square.width;
+          if (ballon.style.height === '54px') {
+              ioSocket.on('youWon', (data) => { 
+                messageContainer.innerText = data.message;;
+                ioSocket.disconnect();
+              } ) 
+                } else {
+            ballon.style.height = square.height; 
+          }
+          ballon.style.position = square.position;
+          ballon.style.backgroundColor = square.backgroundColor;
+
+          return ballon;
+
+          });
+
+   
+          window.addEventListener("click", function() {
+            ioSocket.emit("windowClicked")
+        })
+        
+          window.addEventListener("mousemove", function(event){  
+            var mouseCoordinates = {
+              top: event.clientY,
+              left: event.clientX
+            };
+            ioSocket.emit("newMouseCoordinates", mouseCoordinates);
+          });
+
+          ioSocket.on("deleteClientSquare", function(square){
+            var square = window.document.getElementById(square.id);
+            if (square) {
+              square.parentNode.removeChild(square);
+            }
+          });
+
+        });
+      });
