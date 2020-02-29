@@ -7,12 +7,12 @@ window.addEventListener('DOMContentLoaded', () => {
     ioSocket.on("room-created", (rooms) => {
         for (let i = 0; i < rooms.length; i ++) {
             let roomElement = document.createElement('div')
-            roomElement.innerText = rooms[i]
+            roomElement.innerText = rooms[i] + ' =  '
             let roomLink = document.createElement('a')
             roomLink.href = `/${rooms[i]}`
             roomLink.innerText = 'join'
+            roomElement.append(roomLink)
             roomContainer.append(roomElement)
-            roomContainer.append(roomLink)
             ioSocket.emit("room-joigned", {socketId: ioSocket.id, rooms})
         }
     }) 

@@ -207,7 +207,7 @@ const io = require("socket.io");
 
 const ioServer = io(HTTPserver);
 
-const allSquares = {};
+const allSquares = [];
 
 ioServer.on("connect", function(ioSocket) {
   ioSocket.on("ioSocket_pseudo", pseudo => {
@@ -265,6 +265,8 @@ ioServer.on("connect", function(ioSocket) {
           // : un carré qui n'est pas le mien
         }
       }
+
+      console.log("all squares lenght", allSquares.length)
 
       if (allSquares[square.id].height === "55px") {
         ioServer.emit("youLoose", { message: "sorry you loose" });

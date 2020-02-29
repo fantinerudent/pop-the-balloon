@@ -1,0 +1,60 @@
+
+/* font-family: 'Bubbler One', ;
+font-family: 'Butterfly Kids', ; */
+/* $color1: rgba(255, 89, 94, 1);
+$color2: c;
+$color3: rgba(138, 201, 38, 1);
+$color4: rgba(25, 130, 196, 1);
+$color5: rgba(106, 76, 147, 1); */
+
+body {
+    background-image: url(../img/backgroundballoons.png);
+    background-color: rgba(106, 76, 147, 1) ;
+    background-size: cover;
+    font-size: xx-large;
+    font-family: 'Butterfly Kids';
+}
+
+h2 {
+    margin: 44px 0 0 59px;
+    font-size: 2.2em;
+}
+
+form {
+    position: relative;
+    left: 12%;
+}
+
+#accueil {
+  height: 38%;
+    width: 19%;
+    background-color: rgba(138, 201, 38, 1);
+    position: absolute;
+    top: 52%;
+    left: 35%;
+    padding: 10px;
+    border-radius: 100%;
+}
+  
+
+#roomContainer {
+    background-color: rgba(255, 89, 94, 1);
+    width: 17%;
+    height: 34%;
+    position: absolute;
+    left: 45%;
+    top: 29%;
+    border-radius: 100%;
+}
+#roomContainer p {
+    font-size: 28px;
+    position: relative;
+    left: 39px;
+    text-decoration: underline;
+}
+
+#roomContainer div {
+    position: relative;
+    left: 20px;
+    top: -30px;
+}

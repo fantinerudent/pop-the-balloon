@@ -4,18 +4,27 @@ html(lang="fr")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Login
+        link(type='text/css' rel='stylesheet' href='/css/login.css')
+        link(href="https://fonts.googleapis.com/css?family=Bubbler+One|Butterfly+Kids&display=swap" rel="stylesheet")
+
+    include ./header.pug
 
     body
 
     form#formulaireLogin(action='/login' method="POST")
         label(for='pseudonyme')  votre pseudo ici: 
         input#pseudonyme(type='text' name='pseudonyme' required)
+        br
         label(for='password')  mot de passe : 
         input#password(type='password' name='password' required)
-        a(href='/inscription') inscription ici.
+        a#inscription(href='/inscription') inscription ici.
         input.btn.btn-success(type='submit' value='envoyer' id="bttEnvoyer")
+       
+        
   
   
     
     p#message
         | #{message}
+
+img(src="/img/ballons.png", alt="ballons")

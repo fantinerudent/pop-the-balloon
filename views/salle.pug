@@ -1,19 +1,22 @@
 head  
     script(src="http://localhost:8000/socket.io/socket.io.js")
-    Title " Pop the Balloon"
+    link(type='text/css' rel='stylesheet' href='/css/salle.css')
+    link(href="https://fonts.googleapis.com/css?family=Bubbler+One|Butterfly+Kids&display=swap" rel="stylesheet")
+    Title 🎈 Pop the Ballons 🎈
 
 
+include ./header.pug
 
-p salut #{pseudonyme}
-
-p Ceci est la salle
-
-form#newRoom(action='room', method='POST')
-    label(for="nouvelleRoom") nom de la nouvelle room : 
-    input(type="text" name="nouvelleRoom")
-    input(type="submit" value="envoyer")
+#accueil
+    h2 salut #{pseudonyme}
+    form#newRoom(action='room', method='POST')
+        label(for="nouvelleRoom") nom de la nouvelle room :
+        br 
+        input(type="text" name="nouvelleRoom")
+        input(type="submit" value="envoyer")
 
 #roomContainer
+    p Rejoindre une partie :
 
     
     
