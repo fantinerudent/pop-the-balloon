@@ -2,6 +2,7 @@
 
 const express = require("express");
 const app = express();
+const PORT = process.env.PORT || 5000
 // utilisation du module mongoDB
 const MongoClient = require("mongodb").MongoClient;
 const bodyParser = require("body-parser");
@@ -25,7 +26,7 @@ const session = {
   },
   rolling: true,
   store: new MongoStore({
-    url: "mongodb://192.168.1.22:27017/jeu_multi"
+    url: "mongodb://localhost:27017/jeu_multi"
   }),
   secret: "Alawaléguainbistouly",
   saveUninitialized: true,
@@ -103,7 +104,7 @@ app.get("/:room", redirectionLogin, (req, res) => {
 
 app.post("/login", redirectionGame, (req, res) => {
   MongoClient.connect(
-    "mongodb://192.168.1.22:27017",
+    "mongodb://localhost:27017",
     { useUnifiedTopology: true },
     (err, client) => {
       let db = client.db("jeu_multi");
@@ -154,7 +155,7 @@ app.post("/login", redirectionGame, (req, res) => {
 app.post("/inscription", redirectionGame, (req, res) => {
   //connection à mongodb
   MongoClient.connect(
-    "mongodb://192.168.1.22:27017",
+    "mongodb://localhost:27017",
     { useUnifiedTopology: true },
     (err, client) => {
       if (err) {
@@ -199,7 +200,7 @@ app.post("/inscription", redirectionGame, (req, res) => {
   );
 });
 
-const HTTPserver = app.listen("8000", (req, res) => {
+const HTTPserver = app.listen( PORT, (req, res) => {
   console.log(chalk.bgMagenta("serveurHTPP connecté sur le port 8000"));
 });
 
