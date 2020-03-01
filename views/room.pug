@@ -6,7 +6,7 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Document
         link(rel='stylesheet', href='/css/room.css')
-        script(src="http://localhost/socket.io/socket.io.js")
+        script(src="/socket.io/socket.io.js")
 
     body
 
@@ -24,7 +24,7 @@ script.
       window.addEventListener("DOMContentLoaded", function(){
         
        
-        const ioSocket = io("http://localhost");
+        const ioSocket = io("http://localhost:5000");
         ioSocket.id = Math.round(Math.random() * 10 ** 12)
         ioSocket.pseudonyme = paragraphePseudo.innerText;
 
@@ -71,7 +71,7 @@ script.
                   ioSocket.disconnect();
                  }, 100);
                setTimeout(function(){
-                window.location = "http://localhost/";
+                window.location = "http://localhost:5000/";
                   }, 5000);
                 
               } ) 
@@ -111,7 +111,7 @@ script.
               ioSocket.disconnect();
               }, 100);
               setTimeout(function(){
-              window.location = "http://localhost/";
+              window.location = "http://localhost:5000/";
               }, 5000);
                 
           })
