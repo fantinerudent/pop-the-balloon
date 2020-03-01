@@ -1,6 +1,6 @@
 
 window.addEventListener('DOMContentLoaded', () => {
-    let ioSocket = io("localhost:5000");
+    let ioSocket = io("https://ancient-river-00643.herokuapp.com");
     ioSocket.on("connect", () => {
         console.log('socket connectée.')
     })  

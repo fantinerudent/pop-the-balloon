@@ -24,7 +24,7 @@ script.
       window.addEventListener("DOMContentLoaded", function(){
         
        
-        const ioSocket = io("http://localhost:5000");
+        const ioSocket = io("https://ancient-river-00643.herokuapp.com/");
         ioSocket.id = Math.round(Math.random() * 10 ** 12)
         ioSocket.pseudonyme = paragraphePseudo.innerText;
 
