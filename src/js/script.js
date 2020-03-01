@@ -1,6 +1,6 @@
 
 window.addEventListener('DOMContentLoaded', () => {
-    let ioSocket = io("localhost:8000");
+    let ioSocket = io("192.168.1.22:8000");
     ioSocket.on("connect", () => {
         console.log('socket connectée.')
     })  

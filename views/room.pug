@@ -6,7 +6,7 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Document
         link(rel='stylesheet', href='/css/room.css')
-        script(src="http://localhost:8000/socket.io/socket.io.js")
+        script(src="http://192.168.1.22:8000/socket.io/socket.io.js")
 
     body
 
@@ -22,16 +22,25 @@ script.
       "use strict";
 
       window.addEventListener("DOMContentLoaded", function(){
-
-        const ioSocket = io("http://localhost:8000");
+        
+       
+        const ioSocket = io("http://192.168.1.22:8000");
         ioSocket.id = Math.round(Math.random() * 10 ** 12)
         ioSocket.pseudonyme = paragraphePseudo.innerText;
 
         ioSocket.on("connect", function(){
-
           ioSocket.emit("ioSocket_pseudo", 
               ioSocket.pseudonyme
               )
+
+          ioSocket.on("wait", function(data) {
+            messageContainer.innerText = data.message
+          })
+
+          ioSocket.on("two_players", function(data){
+            messageContainer.innerText = data.message
+          })
+
 
           ioSocket.on("updateClientSquare", function(square){
             // on updatClient j'appelle la fonction createSquare créee
@@ -39,16 +48,6 @@ script.
             // je fais une recherche sur la div qui contient l'id squareproperties
           var ballon = window.document.getElementById(square.id);
 
-            if (square.height === '55px') {
-              ioSocket.on('youLoose', function(data) {
-                messageContainer.innerText = data.message ;
-                let myballon = document.getElementById(ioSocket.id);
-                myballon.style.display = "none"
-                ballon.style.display="none";
-                myballon.parentNode.removeChild(myballon);
-                setTimeout(function(){ioSocket.disconnect();}, 1000);
-              })
-            }
 
           //s'il n'existe pas je le crée.
           if (! ballon) {
@@ -63,10 +62,18 @@ script.
           ballon.style.left = square.left + "px";
           ballon.style.borderRadius = square.borderRadius;
           ballon.style.width = square.width;
-          if (ballon.style.height === '54px') {
+
+
+          if (ballon.style.height === '100px') {
               ioSocket.on('youWon', (data) => { 
-                messageContainer.innerText = data.message;;
-                ioSocket.disconnect();
+                messageContainer.innerText = data.message;
+                setTimeout(function(){
+                  ioSocket.disconnect();
+                 }, 100);
+               setTimeout(function(){
+                window.location = "http://192.168.1.22:8000/";
+                  }, 5000);
+                
               } ) 
                 } else {
             ballon.style.height = square.height; 
@@ -79,7 +86,7 @@ script.
           });
 
           window.addEventListener("click", function() {
-            ioSocket.emit("windowClicked")
+            ioSocket.emit("windowClicked");
         })
         
           window.addEventListener("mousemove", function(event){  
@@ -90,12 +97,24 @@ script.
             ioSocket.emit("newMouseCoordinates", mouseCoordinates);
           });
 
+        
           ioSocket.on("deleteClientSquare", function(square){
             var square = window.document.getElementById(square.id);
             if (square) {
               square.parentNode.removeChild(square);
             }
           });
+
+        ioSocket.on("youLoose", function(data){
+            messageContainer.innerText = data.message
+            setTimeout(function(){
+              ioSocket.disconnect();
+              }, 100);
+              setTimeout(function(){
+              window.location = "http://192.168.1.22:8000/";
+              }, 5000);
+                
+          })
 
         });
       });

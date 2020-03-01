@@ -25,7 +25,7 @@ const session = {
   },
   rolling: true,
   store: new MongoStore({
-    url: "mongodb://localhost:27017/jeu_multi"
+    url: "mongodb://192.168.1.22:27017/jeu_multi"
   }),
   secret: "Alawaléguainbistouly",
   saveUninitialized: true,
@@ -103,7 +103,7 @@ app.get("/:room", redirectionLogin, (req, res) => {
 
 app.post("/login", redirectionGame, (req, res) => {
   MongoClient.connect(
-    "mongodb://localhost:27017",
+    "mongodb://192.168.1.22:27017",
     { useUnifiedTopology: true },
     (err, client) => {
       let db = client.db("jeu_multi");
@@ -154,7 +154,7 @@ app.post("/login", redirectionGame, (req, res) => {
 app.post("/inscription", redirectionGame, (req, res) => {
   //connection à mongodb
   MongoClient.connect(
-    "mongodb://localhost:27017",
+    "mongodb://192.168.1.22:27017",
     { useUnifiedTopology: true },
     (err, client) => {
       if (err) {
@@ -207,18 +207,24 @@ const io = require("socket.io");
 
 const ioServer = io(HTTPserver);
 
-const allSquares = [];
+const allSquares = {};
+const players = [];
 
 ioServer.on("connect", function(ioSocket) {
   ioSocket.on("ioSocket_pseudo", pseudo => {
     ioSocket.pseudonyme = pseudo;
+    if (!players.includes(pseudo)) {
+        players.push(pseudo);
+    }
+
+    console.log(players, "players", players.length);
     const square = {
       id: ioSocket.id,
       top: 0,
       left: 0,
       width: "50px",
       height: "50px",
-      borderRadius: "400px",
+      borderRadius: "100%",
       position: "absolute",
       innerText: pseudo,
       backgroundColor: "#" + (((1 << 24) * Math.random()) | 0).toString(16)
@@ -229,6 +235,7 @@ ioServer.on("connect", function(ioSocket) {
     allSquares[square.id] = square;
 
     // On envoie les propriétés du carré du client à TOUS les clients :
+
     ioServer.emit("updateClientSquare", square);
 
     ioSocket.on("newMouseCoordinates", function(mouseCoordinates) {
@@ -265,26 +272,37 @@ ioServer.on("connect", function(ioSocket) {
           // : un carré qui n'est pas le mien
         }
       }
+      if (players.length === 2) {
+        if (allSquares[square.id].height === "100px") {
+          ioSocket.emit("youWon", { message: "congrats you won" });
+        // ioServer.emit("youLoose",  {message: "sorry you loose"})
+      
 
-      console.log("all squares lenght", allSquares.length)
 
-      if (allSquares[square.id].height === "55px") {
-        ioServer.emit("youLoose", { message: "sorry you loose" });
-        ioSocket.emit("youWon", { message: "congrats you won" });
+        } else {
+          ioSocket.emit("two_players", {message: "cliquez le plus rapidement possible jusqu'à faire exploser le ballon"})
+          allSquares[square.id].height =
+            parseInt(allSquares[square.id].height) + 1 + "px";
+          allSquares[square.id].width =
+            parseInt(allSquares[square.id].width) + 1 + "px";
+        }
       } else {
-        allSquares[square.id].height =
-          parseInt(allSquares[square.id].height) + 1 + "px";
-        allSquares[square.id].width =
-          parseInt(allSquares[square.id].width) + 1 + "px";
+        ioServer.emit("wait",  { message: "attendez un autre joueur" });
       }
 
       // On envoie les propriétés du carré mises à jour à TOUS les clients
       ioServer.emit("updateClientSquare", square);
     });
 
+
     ioSocket.on("disconnect", function() {
       delete allSquares[square.id];
+      ioServer.emit("youLoose",  { message: "sorry you loose"})
       ioServer.emit("deleteClientSquare", square);
     });
+
+    
   });
+
+  
 });
