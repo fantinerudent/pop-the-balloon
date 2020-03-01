@@ -206,7 +206,7 @@ app.post("/inscription", redirectionGame, (req, res) => {
 });
 
 const HTTPserver = app.listen(PORT, (req, res) => {
-  console.log(chalk.bgMagenta("serveurHTPP connecté sur le port 8000"));
+  console.log(chalk.bgMagenta("serveurHTPP connecté"));
 });
 
 const io = require("socket.io");

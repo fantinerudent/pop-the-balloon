@@ -1,6 +1,6 @@
 
 window.addEventListener('DOMContentLoaded', () => {
-    let ioSocket = io("https://ancient-river-00643.herokuapp.com");
+    let ioSocket = io("https://pop-the-balloon.herokuapp.com/");
     ioSocket.on("connect", () => {
         console.log('socket connectée.')
     })  
