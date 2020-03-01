@@ -2,5 +2,34 @@ body {
     color: green;
     font-family: 'Butterfly Kids';  
     font-size: 20px;
+    background-color: cadetblue;
+}
+
+#paragraphePseudo {
+    display: none;
+}
+
+#welcome {
+    background-color: rgba(255, 89, 94, 1);
+    position: absolute;
+    height: 26%;
+    width: 14%;
+    border-radius: 100%;
+    left: 60%;
+    text-align: center;
+}
+
+#welcome p {
+    padding: 18px;
+    font-size: 30px;
+}
+
+#messageContainer {
+    background-color: rgba(25, 130, 196, 1);
+    height: 30px;
+    width: fit-content;
+    border-radius: 20px;
+    padding: 13px;
+    color :  rgba(255, 89, 94, 1)
 }
 

@@ -137,14 +137,6 @@ app.post("/login", redirectionGame, (req, res) => {
             req.session.pseudonyme = req.body.pseudonyme;
             req.session.userId = uuidv1();
             infoUser.userId = req.session.userId;
-            var avatar = infoUser.avatar;
-            var sourceAvatar = "/img/avatars/" + avatar + ".png";
-            req.session.avatar = sourceAvatar;
-            // res.render("login", {
-            //   userId: req.session.uuid,
-            //   pseudonyme: strUcFirst(req.body.pseudonyme),
-            //   sourceAvatar
-            // });
             res.redirect("/");
           } else {
             res.render("login", {
@@ -168,7 +160,7 @@ app.post("/inscription", redirectionGame, (req, res) => {
       console.log(err)
       console.log(error("Impossible de se connecter à la base de données"));
     }
-    // si connection a mongodb reussie, alors je defini la database utilisée ainsi que la collection.
+    // si connection a mongodb reussie, alors je definis la database utilisée ainsi que la collection.
     let db = client.db("jeu_multi");
     let collection = db.collection("utilisateurs");
     collection
@@ -185,11 +177,6 @@ app.post("/inscription", redirectionGame, (req, res) => {
           insertion.password = req.body.password;
           insertion.uuid = uuidv1();
           req.session.uuid = insertion.uuid;
-
-          // ICI JE DOIS GERER LE CHOIX DE LAVATAR LORS DE LINSCRIPTION.
-          insertion.avatar = "poop";
-          req.session.pseudonyme = req.body.pseudonyme;
-          var sourceAvatar = "/img/avatars/" + insertion.avatar + ".png";
           collection.insertOne(insertion, (err, result) => {
             res.render("login", {
               message: "vous êtes inscrits, veuillez maintenant vous connecter."
@@ -213,7 +200,7 @@ const io = require("socket.io");
 
 const ioServer = io(HTTPserver);
 
-const allSquares = {};
+const allnewBalloons = {};
 const players = [];
 
 ioServer.on("connect", function(ioSocket) {
@@ -222,9 +209,7 @@ ioServer.on("connect", function(ioSocket) {
     if (!players.includes(pseudo)) {
       players.push(pseudo);
     }
-
-    console.log(players, "players", players.length);
-    const square = {
+    const newBalloon = {
       id: ioSocket.id,
       top: 0,
       left: 0,
@@ -235,75 +220,64 @@ ioServer.on("connect", function(ioSocket) {
       innerText: pseudo,
       backgroundColor: "#" + (((1 << 24) * Math.random()) | 0).toString(16)
     };
-    // la variable square contient les propriétés de mon carré
+    // la variable newBalloon contient les propriétés de mon carré
 
-    // j'ajoute au tableau de ts les squares, le square qui vient d'etre crée par la connexion socket.
-    allSquares[square.id] = square;
+    // j'ajoute au tableau de ts les newBalloons, le newBalloon qui vient d'etre crée par la connexion socket.
+    allnewBalloons[newBalloon.id] = newBalloon;
 
     // On envoie les propriétés du carré du client à TOUS les clients :
 
-    ioServer.emit("updateClientSquare", square);
+    ioServer.emit("updateClientnewBalloon", newBalloon);
 
     ioSocket.on("newMouseCoordinates", function(mouseCoordinates) {
-      for (let aSquareId in allSquares) {
-        if (aSquareId === square.id) {
-          // mon carré dans le tableau des carrés.
-          allSquares[aSquareId] === square;
-          // allSquares[aSquareId] est la propriété qui contient mon carré.
-          // la variable square contient mon carré également.
+      for (let anewBalloonId in allnewBalloons) {
+        if (anewBalloonId === newBalloon.id) {
+          allnewBalloons[anewBalloonId] === newBalloon;
         } else {
-          // Un carré parmis tous les carrés créés.
-          allSquares[aSquareId];
-          // : un carré qui n'est pas le mien
+          allnewBalloons[anewBalloonId];
         }
       }
 
-      square.top = mouseCoordinates.top - parseFloat(square.width) / 2;
-      square.left = mouseCoordinates.left - parseFloat(square.height) / 2;
+      newBalloon.top = mouseCoordinates.top - parseFloat(newBalloon.width) / 2;
+      newBalloon.left = mouseCoordinates.left - parseFloat(newBalloon.height) / 2;
 
       // On envoie les propriétés du carré mises à jour à TOUS les clients
-      ioServer.emit("updateClientSquare", square);
+      ioServer.emit("updateClientnewBalloon", newBalloon);
     });
 
     ioSocket.on("windowClicked", function() {
-      for (let aSquareId in allSquares) {
-        if (aSquareId === square.id) {
-          // mon carré dans le tableau des carrés.
-          allSquares[aSquareId] === square;
-          // allSquares[aSquareId] est la propriété qui contient mon carré.
-          // la variable square contient mon carré également.
+      for (let anewBalloonId in allnewBalloons) {
+        if (anewBalloonId === newBalloon.id) {
+          allnewBalloons[anewBalloonId] === newBalloon;
         } else {
-          // Un carré parmis tous les carrés créés.
-          allSquares[aSquareId];
-          // : un carré qui n'est pas le mien
+          allnewBalloons[anewBalloonId];
         }
       }
       if (players.length === 2) {
-        if (allSquares[square.id].height === "100px") {
+        if (allnewBalloons[newBalloon.id].height === "100px") {
           ioSocket.emit("youWon", { message: "congrats you won" });
-          // ioServer.emit("youLoose",  {message: "sorry you loose"})
         } else {
           ioSocket.emit("two_players", {
             message:
-              "cliquez le plus rapidement possible jusqu'à faire exploser le ballon"
+              "cliquez le plus rapidement possible jusqu'à faire exploser le balloon"
           });
-          allSquares[square.id].height =
-            parseInt(allSquares[square.id].height) + 1 + "px";
-          allSquares[square.id].width =
-            parseInt(allSquares[square.id].width) + 1 + "px";
+          allnewBalloons[newBalloon.id].height =
+            parseInt(allnewBalloons[newBalloon.id].height) + 1 + "px";
+          allnewBalloons[newBalloon.id].width =
+            parseInt(allnewBalloons[newBalloon.id].width) + 1 + "px";
         }
       } else {
         ioServer.emit("wait", { message: "attendez un autre joueur" });
       }
 
       // On envoie les propriétés du carré mises à jour à TOUS les clients
-      ioServer.emit("updateClientSquare", square);
+      ioServer.emit("updateClientnewBalloon", newBalloon);
     });
 
     ioSocket.on("disconnect", function() {
-      delete allSquares[square.id];
+      delete allnewBalloons[newBalloon.id];
       ioServer.emit("youLoose", { message: "sorry you loose" });
-      ioServer.emit("deleteClientSquare", square);
+      ioServer.emit("deleteClientnewBalloon", newBalloon);
     });
   });
 });

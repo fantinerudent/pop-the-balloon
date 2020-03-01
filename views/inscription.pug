@@ -4,11 +4,22 @@ html(lang="fr")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title inscription
+        link(type='text/css' rel='stylesheet' href='/css/login.css')
+        link(href="https://fonts.googleapis.com/css?family=Bubbler+One|Butterfly+Kids&display=swap" rel="stylesheet")
+
     body
+
+    include ./header.pug
+
+    #inscription 
+        p Inscription
 
 form#formInscription(action='/inscription' method='POST')
     label(for='pseudonyme')  votre pseudo ici: 
     input#pseudonyme(type='text' name='pseudonyme'  autocomplete='off' required)
+    br
     label(for='password')  mot de passe : 
     input#password(type='password' name='password' required)
+    br
+    br
     input.btn.btn-success(type='submit' value='envoyer' id="bttEnvoyer")

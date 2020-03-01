@@ -8,13 +8,15 @@ html(lang="en")
         link(rel='stylesheet', href='/css/room.css')
         script(src="/socket.io/socket.io.js")
 
+    include ./header.pug
     body
 
-        p Salut
-        p#paragraphePseudo #[strong #{pseudonyme}] 
-        p Bienvenue dans la salle #[strong #{roomName}]  
+    p#paragraphePseudo #[strong #{pseudonyme}] 
 
-        #messageContainer
+    #welcome 
+      p Bienvenue dans la salle #[strong #{roomName}]  
+
+    #messageContainer  Pret à cliquer?
 
 
 
@@ -42,26 +44,26 @@ script.
           })
 
 
-          ioSocket.on("updateClientSquare", function(square){
+          ioSocket.on("updateClientSquare", function(newBalloon){
             // on updatClient j'appelle la fonction createSquare créee
-            // auparavant, je lui donne les infos du square recu par le back
+            // auparavant, je lui donne les infos du newBalloon recu par le back
             // je fais une recherche sur la div qui contient l'id squareproperties
-          var ballon = window.document.getElementById(square.id);
+          var ballon = window.document.getElementById(newBalloon.id);
 
 
           //s'il n'existe pas je le crée.
           if (! ballon) {
             ballon = window.document.createElement("div");
-            ballon.id = square.id;
+            ballon.id = newBalloon.id;
             window.document.body.appendChild(ballon);
           }
-          // une fois trouvé ou crée; je  lui donne les propriétés de square
+          // une fois trouvé ou crée; je  lui donne les propriétés de newBalloon
 
-          ballon.innerText = square.innerText
-          ballon.style.top = square.top + "px";
-          ballon.style.left = square.left + "px";
-          ballon.style.borderRadius = square.borderRadius;
-          ballon.style.width = square.width;
+          ballon.innerText = newBalloon.innerText
+          ballon.style.top = newBalloon.top + "px";
+          ballon.style.left = newBalloon.left + "px";
+          ballon.style.borderRadius = newBalloon.borderRadius;
+          ballon.style.width = newBalloon.width;
 
 
           if (ballon.style.height === '100px') {
@@ -76,10 +78,10 @@ script.
                 
               } ) 
                 } else {
-            ballon.style.height = square.height; 
+            ballon.style.height = newBalloon.height; 
           }
-          ballon.style.position = square.position;
-          ballon.style.backgroundColor = square.backgroundColor;
+          ballon.style.position = newBalloon.position;
+          ballon.style.backgroundColor = newBalloon.backgroundColor;
 
           return ballon;
 
@@ -98,10 +100,10 @@ script.
           });
 
         
-          ioSocket.on("deleteClientSquare", function(square){
-            var square = window.document.getElementById(square.id);
-            if (square) {
-              square.parentNode.removeChild(square);
+          ioSocket.on("deleteClientSquare", function(newBalloon){
+            var newBalloon = window.document.getElementById(newBalloon.id);
+            if (newBalloon) {
+              newBalloon.parentNode.removeChild(newBalloon);
             }
           });
 

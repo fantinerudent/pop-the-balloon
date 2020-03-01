@@ -17,14 +17,12 @@ html(lang="fr")
         br
         label(for='password')  mot de passe : 
         input#password(type='password' name='password' required)
-        a#inscription(href='/inscription') inscription ici.
-        input.btn.btn-success(type='submit' value='envoyer' id="bttEnvoyer")
+        a#inscriptionLink(href='/inscription') inscription ici.
+        input.btn.btn-success(type='submit' value='Se connecter' id="bttEnvoyer")
        
-        
-  
-  
-    
-    p#message
-        | #{message}
 
-img(src="/img/ballons.png", alt="ballons")
+    
+    #message
+        p #{message}
+
+img(src="/img/balloons.png", alt="balloons")
