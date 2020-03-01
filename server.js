@@ -100,13 +100,6 @@ app.get("/:room", redirectionLogin, (req, res) => {
 });
 
 
-// const client = new MongoClient(uri, { useNewUrlParser: true });
-// client.connect(err => {
-//   const collection = client.db("test").collection("devices");
-//   // perform actions on the collection object
-//   client.close();
-// });
-
 app.post("/login", redirectionGame, (req, res) => {
   const client = new MongoClient(uri, {
     useNewUrlParser: true,
