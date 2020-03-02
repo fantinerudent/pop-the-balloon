@@ -31,6 +31,7 @@ script.
         ioSocket.pseudonyme = paragraphePseudo.innerText;
 
         ioSocket.on("connect", function(){
+          console.log("socket connectée dans la room")
           ioSocket.emit("ioSocket_pseudo", 
               ioSocket.pseudonyme
               )
@@ -44,7 +45,7 @@ script.
           })
 
 
-          ioSocket.on("updateClientSquare", function(newBalloon){
+          ioSocket.on("updateClientnewBalloon", function(newBalloon){
             // on updatClient j'appelle la fonction createSquare créee
             // auparavant, je lui donne les infos du newBalloon recu par le back
             // je fais une recherche sur la div qui contient l'id squareproperties
