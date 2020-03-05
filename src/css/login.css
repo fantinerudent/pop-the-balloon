@@ -11,8 +11,8 @@ img {
 
 #formulaireLogin, #formInscription {
     background-color: rgba(25, 130, 196, 1);
-    height: 55%;
-    width: 26%;
+    height: 400px;
+    width: 400px;
     position: absolute;
     top: 32%;
     left: 35%;
@@ -23,7 +23,7 @@ img {
     color: rgba(138, 201, 38, 1);
     position: relative;
     font-size: 51px;
-    width: 267px;
+    width: 65%;
     height: 29px;
     top: 14%;
     left: 18%;
@@ -31,8 +31,9 @@ img {
 
 #bttEnvoyer {
     position: relative;
-    left: 13%;
-    top: 21px;
+    left: -2%;
+    top: 30px;
+    margin-bottom: 10px;
     font-size: 16px;
     border-radius: 13px;
 }
@@ -48,32 +49,37 @@ img {
 #message {
     position: absolute;
     background-color: rgba(255, 89, 94, 1);
-    width: 16%;
+    width: 300px;
     border-radius: 100%;
-    height: 32%;
+    height: 300px;
     top: 16%;
     left: 55%;
+    display: table;
 }
 
 #message p {
     color: rgba(106, 76, 147, 1);
     font-size: 32px;
-    margin: 15px;
-    padding: 17px;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
 }
 
 #inscription {
     background-color: crimson;
     position: absolute;
-    height: 30%;
-    width: 15%;
+    height: 300px;
+    width: 300px;
     border-radius: 100%;
     left: 24%;
     top: 23%;
+    display: table;
 }
 
 #inscription p {
     font-size: 51px;
-    padding: 25px;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
     color : white;
 }
