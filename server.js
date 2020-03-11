@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 // utilisation du module mongoDB
 const MongoClient = require("mongodb").MongoClient;
 const uri =
-  "mongodb+srv://frudent:tywyMklSUH1MAHiq@cluster0-3woch.mongodb.net/test?retryWrites=true&w=majority";
+  "mongodb+srv://frudent:weshyo59@cluster0-3woch.mongodb.net/test?retryWrites=true&w=majority";
 const bodyParser = require("body-parser");
 
 // gestion des sessions:
@@ -248,7 +248,7 @@ ioServer.on("connect", function(ioSocket) {
           allnewBalloons[anewBalloonId];
         }
       }
-      if (players.length === 2) {
+      if (players.length >= 2) {
         if (allnewBalloons[newBalloon.id].height === "100px") {
           ioSocket.emit("youWon", { message: "congrats you won" });
         } else {
