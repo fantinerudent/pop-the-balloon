@@ -196,7 +196,7 @@ const io = require("socket.io");
 const ioServer = io(HTTPserver);
 
 const allnewBalloons = {};
-const players = [];
+let players = [];
 
 ioServer.on("connect", function(ioSocket) {
   ioSocket.on("ioSocket_pseudo", pseudo => {
@@ -248,8 +248,9 @@ ioServer.on("connect", function(ioSocket) {
           allnewBalloons[anewBalloonId];
         }
       }
-      if (players.length >= 2) {
+      if (players.length === 2) {
         if (allnewBalloons[newBalloon.id].height === "100px") {
+          players = [];
           ioSocket.emit("youWon", { message: "congrats you won" });
         } else {
           ioSocket.emit("two_players", {
