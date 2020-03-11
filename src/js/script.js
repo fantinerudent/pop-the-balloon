@@ -1,5 +1,6 @@
 
 window.addEventListener('DOMContentLoaded', () => {
+    // eslint-disable-next-line no-undef
     let ioSocket = io("https://pop-the-balloon.herokuapp.com/");
     ioSocket.on("connect", () => {
         console.log('socket connectée.')
@@ -12,6 +13,7 @@ window.addEventListener('DOMContentLoaded', () => {
             roomLink.href = `/${rooms[i]}`
             roomLink.innerText = 'join'
             roomElement.append(roomLink)
+            // eslint-disable-next-line no-undef
             roomContainer.append(roomElement)
             ioSocket.emit("room-joigned", {socketId: ioSocket.id, rooms})
         }
