@@ -46,6 +46,9 @@ script.
 
 
           ioSocket.on("updateClientnewBalloon", function(newBalloon){
+            // on updatClient j'appelle la fonction createSquare créee
+            // auparavant, je lui donne les infos du newBalloon recu par le back
+            // je fais une recherche sur la div qui contient l'id squareproperties
           var ballon = window.document.getElementById(newBalloon.id);
 
 
@@ -56,11 +59,13 @@ script.
             window.document.body.appendChild(ballon);
           }
           // une fois trouvé ou crée; je  lui donne les propriétés de newBalloon
+
           ballon.innerText = newBalloon.innerText
           ballon.style.top = newBalloon.top + "px";
           ballon.style.left = newBalloon.left + "px";
           ballon.style.borderRadius = newBalloon.borderRadius;
           ballon.style.width = newBalloon.width;
+
 
           if (ballon.style.height === '100px') {
               ioSocket.on('youWon', (data) => { 
@@ -70,19 +75,22 @@ script.
                  }, 100);
                setTimeout(function(){
                 window.location = "https://pop-the-balloon.herokuapp.com/";
-                  }, 5000); 
-                }) 
+                  }, 5000);
+                
+              } ) 
                 } else {
             ballon.style.height = newBalloon.height; 
           }
           ballon.style.position = newBalloon.position;
           ballon.style.backgroundColor = newBalloon.backgroundColor;
+
           return ballon;
+
           });
 
           window.addEventListener("click", function() {
             ioSocket.emit("windowClicked");
-          })
+        })
         
           window.addEventListener("mousemove", function(event){  
             var mouseCoordinates = {
@@ -92,21 +100,24 @@ script.
             ioSocket.emit("newMouseCoordinates", mouseCoordinates);
           });
 
-          ioSocket.on("deleteClientnewBallon", function(newBalloon){
+        
+          ioSocket.on("deleteClientSquare", function(newBalloon){
             var newBalloon = window.document.getElementById(newBalloon.id);
             if (newBalloon) {
               newBalloon.parentNode.removeChild(newBalloon);
             }
           });
 
-          ioSocket.on("youLoose", function(data){
+        ioSocket.on("youLoose", function(data){
             messageContainer.innerText = data.message
             setTimeout(function(){
               ioSocket.disconnect();
               }, 100);
               setTimeout(function(){
               window.location = "https://pop-the-balloon.herokuapp.com/";
-              }, 5000);      
+              }, 5000);
+                
           })
+
         });
       });

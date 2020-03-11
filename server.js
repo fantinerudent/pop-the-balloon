@@ -153,7 +153,7 @@ app.post("/inscription", redirectionGame, (req, res) => {
       console.log(err)
       console.log(error("Impossible de se connecter à la base de données"));
     }
-    // si connection à mongodb réussie, alors je défini la database utilisée ainsi que la collection.
+    // si connection a mongodb reussie, alors je definis la database utilisée ainsi que la collection.
     let db = client.db("jeu_multi");
     let collection = db.collection("utilisateurs");
     collection
